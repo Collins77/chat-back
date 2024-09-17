@@ -1,4 +1,5 @@
-import { genSalt, hash } from "bcrypt";
+import pkg from 'bcryptjs';
+const { genSalt, hash } = pkg;
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
