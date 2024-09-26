@@ -1,6 +1,6 @@
-import { Server as SocketIOServer } from "socket.io"
-import Message from "./models/MessagesModel.js";
-import Channel from "./models/ChannelModel.js";
+const { Server: SocketIOServer } = require("socket.io");
+const Message = require("./models/MessagesModel");
+const Channel = require("./models/ChannelModel");
 
 const setupSocket = (server) => {
     const io = new SocketIOServer(server, {
@@ -95,4 +95,4 @@ const setupSocket = (server) => {
     })
 };
 
-export default setupSocket
+module.exports = setupSocket

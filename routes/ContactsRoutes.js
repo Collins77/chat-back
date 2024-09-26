@@ -1,11 +1,12 @@
-import { Router } from "express";
-import { verifyToken } from "../middlewares/AuthMiddleware.js";
-import { getAllContacts, getContactsForDMList, searchContacts } from "../controllers/ContactsController.js";
+const express = require("express");
+const contactsController = require("../controllers/ContactsController");
 
-const contactsRoutes = Router();
+const verifyToken = require("../middlewares/AuthMiddleware");
 
-contactsRoutes.post("/search", verifyToken, searchContacts);
-contactsRoutes.get("/get-contacts-for-dm", verifyToken, getContactsForDMList);
-contactsRoutes.get("/get-all-contacts", verifyToken, getAllContacts);
+const router = express.Router();
 
-export default contactsRoutes;
+router.post("/search", verifyToken, contactsController.searchContacts);
+router.get("/get-contacts-for-dm", verifyToken, contactsController.getContactsForDMList);
+router.get("/get-all-contacts", verifyToken, contactsController.getAllContacts);
+
+module.exports = router;

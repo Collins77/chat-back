@@ -1,18 +1,18 @@
-import { Router } from "express";
-import { addProfileImage, getUserInfo, login, logout, removeProfileImage, signup, updateProfile } from "../controllers/AuthController.js";
-import { verifyToken } from "../middlewares/AuthMiddleware.js";
-import multer from "multer";
+const express = require("express");
+const verifyToken = require("../middlewares/AuthMiddleware");
+const multer = require("multer");
+const authController = require('../controllers/AuthController.js');
 
-const authRoutes = Router();
+const router = express.Router();
 
-const upload = multer({dest: "uploads/profiles/"});
+const upload = multer({ dest: "uploads/profiles/" });
 
-authRoutes.post("/signup", signup);
-authRoutes.post("/login", login);
-authRoutes.get("/user-info", verifyToken, getUserInfo);
-authRoutes.post("/update-profile", verifyToken, updateProfile);
-authRoutes.post("/add-profile-image", verifyToken, upload.single("profile-image"), addProfileImage);
-authRoutes.delete("/remove-profile-image", verifyToken, removeProfileImage);
-authRoutes.post("/logout",logout);
+router.post("/signup", authController.signup);
+router.post("/login", authController.login);
+router.get("/user-info", verifyToken, authController.getUserInfo);
+router.post("/update-profile", verifyToken, authController.updateProfile);
+router.post("/add-profile-image", verifyToken, upload.single("profile-image"), authController.addProfileImage);
+router.delete("/remove-profile-image", verifyToken, authController.removeProfileImage);
+router.post("/logout", authController.logout);
 
-export default authRoutes;
+module.exports = router;

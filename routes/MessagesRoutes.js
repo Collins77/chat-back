@@ -1,12 +1,12 @@
-import { Router } from "express";
-import { verifyToken } from "../middlewares/AuthMiddleware.js";
-import { getMessages, uploadFile } from "../controllers/MessagesController.js";
-import multer from "multer";
+const express = require("express");
+const messageController = require("../controllers/MessagesController");
+const verifyToken = require("../middlewares/AuthMiddleware");
+const multer = require("multer");
 
-const messagesRoutes = Router();
-const upload = multer({dest: "uploads/files"});
+const router = express.Router();
+const upload = multer({ dest: "uploads/files" });
 
-messagesRoutes.post("/get-messages", verifyToken, getMessages);
-messagesRoutes.post("/upload-file", verifyToken, upload.single("file"), uploadFile);
+router.post("/get-messages", verifyToken, messageController.getMessages);
+router.post("/upload-file", verifyToken, upload.single("file"), messageController.uploadFile);
 
-export default messagesRoutes;
+module.exports = router;

@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import User from "../models/UserModel.js";
-import Message from "../models/MessagesModel.js";
+const mongoose = require("mongoose");
+const User = require("../models/UserModel");
+const Message = require("../models/MessagesModel");
 
-export const searchContacts = async (request, response, next) => {
+const searchContacts = async (request, response, next) => {
     try {
         const {searchTerm} = request.body;
 
@@ -32,7 +32,7 @@ export const searchContacts = async (request, response, next) => {
     }
 }
 
-export const getContactsForDMList = async (request, response, next) => {
+const getContactsForDMList = async (request, response, next) => {
     try {
         let {userId} = request;
 
@@ -91,7 +91,7 @@ export const getContactsForDMList = async (request, response, next) => {
         return response.status(500).send("Internal Server Error")
     }
 }
-export const getAllContacts = async (request, response, next) => {
+const getAllContacts = async (request, response, next) => {
     try {
         const users = await User.find({_id:{$ne: request.userId}}, "firstName lastName _id email");
 
@@ -106,3 +106,5 @@ export const getAllContacts = async (request, response, next) => {
         return response.status(500).send("Internal Server Error")
     }
 }
+
+module.exports = {searchContacts, getContactsForDMList, getAllContacts}

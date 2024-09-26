@@ -1,7 +1,7 @@
-import Message from "../models/MessagesModel.js";
-import {mkdirSync, renameSync} from "fs";
+const {mkdirSync, renameSync} = require("fs");
+const Message = require("../models/MessagesModel");
 
-export const getMessages = async (request, response, next) => {
+const getMessages = async (request, response, next) => {
     try {
         const user1 = request.userId;
         const user2 = request.body.id;
@@ -24,7 +24,7 @@ export const getMessages = async (request, response, next) => {
     }
 }
 
-export const uploadFile = async (request, response, next) => {
+const uploadFile = async (request, response, next) => {
     try {
         if(!request.file) {
             return response.status(400).send("File is required");
@@ -42,3 +42,5 @@ export const uploadFile = async (request, response, next) => {
         return response.status(500).send("Internal Server Error")
     }
 }
+
+module.exports = {getMessages, uploadFile}

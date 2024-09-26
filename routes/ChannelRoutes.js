@@ -1,11 +1,12 @@
-import { Router } from "express";
-import { verifyToken } from "../middlewares/AuthMiddleware.js";
-import { createChannel, getChannelMessages, getUserChannels } from "../controllers/ChannelController.js";
+const express = require("express");
+const channelController = require("../controllers/ChannelController");
 
-const channelRoutes = Router();
+const verifyToken = require("../middlewares/AuthMiddleware");
 
-channelRoutes.post("/create-channel", verifyToken, createChannel);
-channelRoutes.get("/get-user-channels", verifyToken, getUserChannels);
-channelRoutes.get("/get-channel-messages/:channelId", verifyToken, getChannelMessages);
+const router = express.Router();
 
-export default channelRoutes;
+router.post("/create-channel", verifyToken, channelController.createChannel);
+router.get("/get-user-channels", verifyToken, channelController.getUserChannels);
+router.get("/get-channel-messages/:channelId", verifyToken, channelController.getChannelMessages);
+
+module.exports = router;

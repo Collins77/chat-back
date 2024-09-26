@@ -1,13 +1,11 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import mongoose from "mongoose";
-import authRoutes from "./routes/AuthRoutes.js";
-import contactsRoutes from "./routes/ContactsRoutes.js";
-import setupSocket from "./socket.js";
-import messagesRoutes from "./routes/MessagesRoutes.js";
-import channelRoutes from "./routes/ChannelRoutes.js";
+
+const express = require("express");
+const dotenv = require ("dotenv");
+const cors = require ("cors");
+const cookieParser = require ("cookie-parser");
+const mongoose = require ("mongoose");
+const setupSocket = require ("./socket.js");
+
 
 dotenv.config();
 
@@ -16,7 +14,7 @@ const port = process.env.PORT || 3001;
 const databaseUrl = process.env.DATABASE_URL
 
 app.use(cors({
-    origin:[process.env.ORIGIN],
+    origin:[process.env.ORIGIN, "http://localhost:5173"],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
 }));
@@ -26,6 +24,11 @@ app.use("/uploads/files", express.static("uploads/files"));
 
 app.use(cookieParser());
 app.use(express.json());
+
+const authRoutes = require('./routes/AuthRoutes');
+const contactsRoutes = require('./routes/ContactsRoutes');
+const messagesRoutes = require('./routes/MessagesRoutes');
+const channelRoutes = require('./routes/ChannelRoutes');
 
 app.use("/api/auth", authRoutes);
 app.use("/api/contacts", contactsRoutes);

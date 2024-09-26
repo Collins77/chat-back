@@ -1,8 +1,7 @@
-import jwt from "jsonwebtoken";
-import User from "../models/UserModel.js";
-import pkg from 'bcryptjs';
-const { compare } = pkg;
-import { renameSync, unlinkSync } from "fs";
+const jwt = require("jsonwebtoken");
+const {compare} = require('bcryptjs');
+const { renameSync, unlinkSync } = require("fs");
+const User = require("../models/UserModel");
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -10,7 +9,7 @@ const createToken = (email, userId) => {
     return jwt.sign({ email, userId }, process.env.JWT_KEY, { expiresIn: maxAge })
 };
 
-export const signup = async (request, response, next) => {
+const signup = async (request, response, next) => {
     try {
         const { email, password } = request.body;
         if (!email || !password) {
@@ -34,7 +33,7 @@ export const signup = async (request, response, next) => {
         return response.status(500).send("Internal Server Error")
     }
 }
-export const login = async (request, response, next) => {
+const login = async (request, response, next) => {
     try {
         const { email, password } = request.body;
         if (!email || !password) {
@@ -70,7 +69,7 @@ export const login = async (request, response, next) => {
     }
 }
 
-export const getUserInfo = async (request, response, next) => {
+const getUserInfo = async (request, response, next) => {
     try {
 
         const userData = await User.findById(request.userId);
@@ -92,7 +91,7 @@ export const getUserInfo = async (request, response, next) => {
     }
 }
 
-export const updateProfile = async (request, response, next) => {
+const updateProfile = async (request, response, next) => {
     try {
         const { userId } = request;
         const { firstName, lastName, color } = request.body;
@@ -118,7 +117,7 @@ export const updateProfile = async (request, response, next) => {
     }
 }
 
-export const addProfileImage = async (request, response, next) => {
+const addProfileImage = async (request, response, next) => {
     try {
         if (!request.file) {
             return response.status(400).send("File is required!");
@@ -139,7 +138,7 @@ export const addProfileImage = async (request, response, next) => {
     }
 }
 
-export const removeProfileImage = async (request, response, next) => {
+const removeProfileImage = async (request, response, next) => {
     try {
         const { userId } = request;
         const user = await User.findById(userId);
@@ -159,8 +158,7 @@ export const removeProfileImage = async (request, response, next) => {
         return response.status(500).send("Internal Server Error")
     }
 }
-
-export const logout = async (request, response, next) => {
+const logout = async (request, response, next) => {
     try {
         response.cookie("jwt", "", {maxAge:1, secure:true, sameSite:"None"});
 
@@ -171,3 +169,4 @@ export const logout = async (request, response, next) => {
     }
 }
 
+module.exports = {getUserInfo, login, signup,logout, removeProfileImage, addProfileImage, updateProfile}

@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
-export const verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
     const token = req.cookies.jwt;
     if (!token) return res.status(401).send("You are not authenticated!")
     jwt.verify(token, process.env.JWT_KEY, async (err, payload) => {
@@ -8,5 +8,6 @@ export const verifyToken = (req, res, next) => {
         req.userId = payload.userId;
         next();
     })
-
 }
+
+module.exports = verifyToken;

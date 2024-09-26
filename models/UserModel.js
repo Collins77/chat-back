@@ -1,6 +1,5 @@
-import pkg from 'bcryptjs';
-const { genSalt, hash } = pkg;
-import mongoose from "mongoose";
+const { genSalt, hash } = require("bcryptjs");
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -41,4 +40,4 @@ userSchema.pre("save", async function(next){
 });
 
 const User = mongoose.model('User', userSchema);
-export default User;
+module.exports = User;

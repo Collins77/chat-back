@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import Channel from "../models/ChannelModel.js";
-import User from "../models/UserModel.js";
+const mongoose = require("mongoose");
+const Channel = require("../models/ChannelModel");
+const User = require("../models/UserModel");
 
-export const createChannel = async (request, response, next) => {
+const createChannel = async (request, response, next) => {
     try {
         const {name, members} = request.body;
 
@@ -31,8 +31,7 @@ export const createChannel = async (request, response, next) => {
         return response.status(500).send("Internal Server Error")
     }
 }
-
-export const getUserChannels = async (request, response, next) => {
+const getUserChannels = async (request, response, next) => {
     try {
         const userId = new mongoose.Types.ObjectId(request.userId);
         const channels = await Channel.find({
@@ -46,7 +45,7 @@ export const getUserChannels = async (request, response, next) => {
     }
 }
 
-export const getChannelMessages = async (request, response, next) => {
+const getChannelMessages = async (request, response, next) => {
     try {
         const {channelId} = request.params;
         const channel = await Channel.findById(channelId).populate({path:"messages", populate: {
@@ -63,3 +62,5 @@ export const getChannelMessages = async (request, response, next) => {
         return response.status(500).send("Internal Server Error")
     }
 }
+
+module.exports = {createChannel, getUserChannels, getChannelMessages }

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const channelSchema = new mongoose.Schema({
     name: {
@@ -29,4 +29,4 @@ channelSchema.pre("findOneAndUpdate", function (next) {
 })
 
 const Channel = mongoose.model("Channel", channelSchema);
-export default Channel;
+module.exports = Channel;
